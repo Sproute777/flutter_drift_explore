@@ -13,9 +13,10 @@ void setTargetPlatformForDesktop({TargetPlatform? platform}) {
       targetPlatform = TargetPlatform.iOS;
     } else if (Platform.isLinux || Platform.isWindows) {
       targetPlatform = TargetPlatform.android;
-    } else if (Platform.isWindows) {
-      targetPlatform = TargetPlatform.windows;
     }
+    // else if (Platform.isWindows) {
+    //   targetPlatform = TargetPlatform.windows;
+    // }
   }
   debugDefaultTargetPlatformOverride = targetPlatform;
 }

@@ -17,8 +17,7 @@ class TodoEntry extends DataClass implements Insertable<TodoEntry> {
       required this.content,
       this.targetDate,
       this.category});
-  factory TodoEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String? prefix}) {
+  factory TodoEntry.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return TodoEntry(
       id: const IntType()
@@ -60,7 +59,7 @@ class TodoEntry extends DataClass implements Insertable<TodoEntry> {
 
   factory TodoEntry.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return TodoEntry(
       id: serializer.fromJson<int>(json['id']),
       content: serializer.fromJson<String>(json['content']),
@@ -70,7 +69,7 @@ class TodoEntry extends DataClass implements Insertable<TodoEntry> {
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'content': serializer.toJson<String>(content),
@@ -250,7 +249,7 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, TodoEntry> {
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   TodoEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return TodoEntry.fromData(data, attachedDatabase,
+    return TodoEntry.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
@@ -264,8 +263,7 @@ class Category extends DataClass implements Insertable<Category> {
   final int id;
   final String? description;
   Category({required this.id, this.description});
-  factory Category.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String? prefix}) {
+  factory Category.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return Category(
       id: const IntType()
@@ -295,7 +293,7 @@ class Category extends DataClass implements Insertable<Category> {
 
   factory Category.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return Category(
       id: serializer.fromJson<int>(json['id']),
       description: serializer.fromJson<String?>(json['description']),
@@ -303,7 +301,7 @@ class Category extends DataClass implements Insertable<Category> {
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'description': serializer.toJson<String?>(description),
@@ -427,7 +425,7 @@ class $CategoriesTable extends Categories
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   Category map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return Category.fromData(data, attachedDatabase,
+    return Category.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
