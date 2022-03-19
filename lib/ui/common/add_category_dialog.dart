@@ -29,7 +29,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
             TextField(
               controller: _controller,
               autofocus: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Name of the category',
               ),
               onSubmitted: (_) => _addEntry(),
@@ -40,7 +40,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                   child: const Text('Add'),
                   style: ButtonStyle(
                     textStyle: MaterialStateProperty.all(
-                      TextStyle(color: Theme.of(context).accentColor),
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                   onPressed: _addEntry,
