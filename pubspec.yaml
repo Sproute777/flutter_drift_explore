@@ -40,7 +40,7 @@ dependencies:
   path: ^1.8.0
   undo: ^1.4.0
 
-  moor_db_viewer: ^4.0.0
+  # moor_db_viewer: ^4.0.0
   
   drift_db_viewer: ^1.0.3
   bloc: ^8.0.3
