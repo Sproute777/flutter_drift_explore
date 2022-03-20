@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:drift/native.dart';
-// import 'package:moor/moor.dart';
 import 'package:drift/drift.dart';
 
 import 'package:path_provider/path_provider.dart' as paths;
@@ -22,9 +21,9 @@ Database constructDb({bool logStatements = false}) {
     final file = File('db.sqlite');
     return Database(NativeDatabase(file, logStatements: logStatements));
   }
-  if (Platform.isWindows) {
-    final file = File('db.sqlite');
-    return Database(NativeDatabase(file, logStatements: logStatements));
-  }
+  // if (Platform.isWindows) {
+  //   final file = File('db.sqlite');
+  //   return Database(NativeDatabase(file, logStatements: logStatements));
+  // }
   return Database(NativeDatabase.memory(logStatements: logStatements));
 }

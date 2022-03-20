@@ -5,8 +5,7 @@ import 'package:undo/undo.dart';
 
 import '../database/database.dart';
 
-/// Class that keeps information about a category and whether it's selected at
-/// the moment.
+/*-----------------------------------------------------------------------------*/
 class CategoryWithActiveInfo {
   CategoryWithActiveInfo(this.categoryWithCount, this.isActive);
 
@@ -14,6 +13,7 @@ class CategoryWithActiveInfo {
   bool isActive;
 }
 
+/*-----------------------------------------------------------------------------*/
 class TodoAppBloc extends Cubit<ChangeStack> {
   TodoAppBloc(this.db) : super(db.cs) {
     init();
@@ -118,3 +118,5 @@ class TodoAppBloc extends Cubit<ChangeStack> {
     _allCategories.close();
   }
 }
+
+/*-----------------------------------------------------------------------------*/

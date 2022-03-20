@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
         },
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'moor Demo',
+          title: 'Drift Demo',
           theme: ThemeData(
             primarySwatch: Colors.orange,
             // use the good-looking updated material text style

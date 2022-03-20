@@ -14,9 +14,6 @@ void setTargetPlatformForDesktop({TargetPlatform? platform}) {
     } else if (Platform.isLinux || Platform.isWindows) {
       targetPlatform = TargetPlatform.android;
     }
-    // else if (Platform.isWindows) {
-    //   targetPlatform = TargetPlatform.windows;
-    // }
   }
   debugDefaultTargetPlatformOverride = targetPlatform;
 }

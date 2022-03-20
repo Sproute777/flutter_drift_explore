@@ -7,6 +7,7 @@ import 'db_utils.dart';
 export 'database/shared.dart';
 
 part 'database.g.dart';
+/*-----------------------------------------------------------------------------*/
 
 @DataClassName('TodoEntry')
 class Todos extends Table {
@@ -21,12 +22,16 @@ class Todos extends Table {
       .customConstraint('NULLABLE REFERENCES categories(id)')();
 }
 
+/*-----------------------------------------------------------------------------*/
+
 @DataClassName('Category')
 class Categories extends Table {
   IntColumn get id => integer().autoIncrement()();
 
   TextColumn get description => text().named('desc').nullable()();
 }
+
+/*-----------------------------------------------------------------------------*/
 
 class CategoryWithCount {
   CategoryWithCount(this.category, this.count);
@@ -36,12 +41,16 @@ class CategoryWithCount {
   final int count; // amount of entries in this category
 }
 
+/*-----------------------------------------------------------------------------*/
+
 class EntryWithCategory {
   EntryWithCategory(this.entry, this.category);
 
   final TodoEntry entry;
   final Category? category;
 }
+
+/*-----------------------------------------------------------------------------*/
 
 @DriftDatabase(
   tables: [Todos, Categories],
@@ -54,7 +63,7 @@ class Database extends _$Database {
   final cs = ChangeStack();
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {
@@ -177,3 +186,4 @@ class Database extends _$Database {
     });
   }
 }
+/*-----------------------------------------------------------------------------*/

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../src/blocs/todo.dart';
 
 class AddCategoryDialog extends StatefulWidget {
@@ -29,7 +28,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
             TextField(
               controller: _controller,
               autofocus: true,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Name of the category',
               ),
               onSubmitted: (_) => _addEntry(),
@@ -40,7 +39,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                   child: const Text('Add'),
                   style: ButtonStyle(
                     textStyle: MaterialStateProperty.all(
-                      TextStyle(color: Theme.of(context).colorScheme.secondary),
+                      TextStyle(color: Theme.of(context).accentColor),
                     ),
                   ),
                   onPressed: _addEntry,
