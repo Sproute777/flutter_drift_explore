@@ -65,9 +65,7 @@ class TodoCard extends StatelessWidget {
               icon: const Icon(Icons.delete),
               color: Colors.red,
               onPressed: () {
-                // We delete the entry here. Again, notice how we don't have to call setState() or
-                // inform the parent widget. The animated list will take care of this automatically.
-                BlocProvider.of<TodoAppBloc>(context).deleteEntry(entry);
+                RepositoryProvider.of<TodoApp>(context).deleteEntry(entry);
               },
             )
           ],

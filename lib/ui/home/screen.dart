@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:undo/undo.dart';
+// import 'package:undo/undo.dart';
 
 import '../../src/blocs/todo.dart';
 import '../../src/database/database.dart';
@@ -20,91 +20,65 @@ class HomeScreenState extends State<HomeScreen> {
   // we only use this to reset the input field at the bottom when a entry has been added
   final TextEditingController controller = TextEditingController();
 
-  TodoAppBloc get bloc => BlocProvider.of<TodoAppBloc>(context);
+  TodoApp get bloc => RepositoryProvider.of<TodoApp>(context);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodoAppBloc, ChangeStack>(
-      builder: (context, cs) => Scaffold(
-        appBar: AppBar(
-          title: Text('Todo list'),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.undo),
-              onPressed: !bloc.canUndo
-                  ? null
-                  : () {
-                      if (mounted)
-                        setState(() {
-                          bloc.undo();
-                        });
-                    },
-            ),
-            IconButton(
-              icon: Icon(Icons.redo),
-              onPressed: !bloc.canRedo
-                  ? null
-                  : () {
-                      if (mounted)
-                        setState(() {
-                          bloc.redo();
-                        });
-                    },
-            ),
-          ],
-        ),
-        drawer: CategoriesDrawer(),
-        body: StreamBuilder<List<EntryWithCategory>>(
-          stream: bloc.homeScreenEntries,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Todo list'),
+      ),
+      drawer: CategoriesDrawer(),
+      body: StreamBuilder<List<EntryWithCategory>>(
+        stream: bloc.homeScreenEntries,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-            if (!snapshot.hasData) {
-              return Center(child: Text('no data!'));
-            }
+          if (!snapshot.hasData) {
+            return Center(child: Text('no data!'));
+          }
 
-            final activeTodos = snapshot.data!;
+          final activeTodos = snapshot.data!;
 
-            return ListView.builder(
-              itemCount: activeTodos.length,
-              itemBuilder: (context, index) {
-                return TodoCard(activeTodos[index].entry);
-              },
-            );
-          },
-        ),
-        bottomSheet: Material(
-          elevation: 12.0,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text('What needs to be done?'),
-                  Container(
-                    padding: EdgeInsets.only(bottom: 10.0),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: TextField(
-                            controller: controller,
-                            onSubmitted: (_) => _createTodoEntry(),
-                          ),
+          return ListView.builder(
+            itemCount: activeTodos.length,
+            itemBuilder: (context, index) {
+              return TodoCard(activeTodos[index].entry);
+            },
+          );
+        },
+      ),
+      bottomSheet: Material(
+        elevation: 12.0,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('What needs to be done?'),
+                Container(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextField(
+                          controller: controller,
+                          onSubmitted: (_) => _createTodoEntry(),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.send),
-                          color: Theme.of(context).accentColor,
-                          onPressed: _createTodoEntry,
-                        ),
-                      ],
-                    ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.send),
+                        color: Theme.of(context).colorScheme.secondary,
+                        onPressed: _createTodoEntry,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
