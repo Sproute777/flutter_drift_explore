@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../src/blocs/todo.dart';
+import '../../src/repository/todo_repo.dart';
 
 class AddCategoryDialog extends StatefulWidget {
   @override
@@ -39,7 +39,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                   child: const Text('Add'),
                   style: ButtonStyle(
                     textStyle: MaterialStateProperty.all(
-                      TextStyle(color: Theme.of(context).accentColor),
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                   onPressed: _addEntry,
@@ -54,7 +54,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
 
   void _addEntry() {
     if (_controller.text.isNotEmpty) {
-      RepositoryProvider.of<TodoApp>(context).addCategory(_controller.text);
+      RepositoryProvider.of<TodoRepo>(context).addCategory(_controller.text);
       Navigator.of(context).pop();
     }
   }

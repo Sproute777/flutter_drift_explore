@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../src/blocs/todo.dart';
 import '../../src/database/database.dart';
+import '../../src/repository/todo_repo.dart';
 import 'index.dart';
 
 final DateFormat _format = DateFormat.yMMMd();
@@ -65,7 +65,7 @@ class TodoCard extends StatelessWidget {
               icon: const Icon(Icons.delete),
               color: Colors.red,
               onPressed: () {
-                RepositoryProvider.of<TodoApp>(context).deleteEntry(entry);
+                RepositoryProvider.of<TodoRepo>(context).deleteEntry(entry);
               },
             )
           ],

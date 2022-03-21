@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drift_db_viewer/drift_db_viewer.dart';
 import '../../src/database/database.dart';
 
-import '../../src/blocs/todo.dart';
+import '../../src/repository/todo_repo.dart';
 import 'index.dart';
 
 class CategoriesDrawer extends StatelessWidget {
@@ -36,7 +36,7 @@ class CategoriesDrawer extends StatelessWidget {
           ),
           Flexible(
             child: StreamBuilder<List<CategoryWithActiveInfo>>(
-              stream: RepositoryProvider.of<TodoApp>(context).categories,
+              stream: RepositoryProvider.of<TodoRepo>(context).categories,
               builder: (context, snapshot) {
                 final categories = snapshot.data ?? <CategoryWithActiveInfo>[];
 
@@ -54,7 +54,6 @@ class CategoriesDrawer extends StatelessWidget {
             children: <Widget>[
               TextButton(
                 child: const Text('Add category'),
-                // textColor: Theme.of(context).accentColor,
                 style: ButtonStyle(
                   textStyle: MaterialStateProperty.all(
                     TextStyle(color: Theme.of(context).colorScheme.secondary),
@@ -89,14 +88,15 @@ class _CategoryDrawerEntry extends StatelessWidget {
     }
 
     final isActive = entry!.isActive;
-    final bloc = RepositoryProvider.of<TodoApp>(context);
+    final bloc = RepositoryProvider.of<TodoRepo>(context);
 
     final rowContent = [
       Text(
         title,
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: isActive ? Theme.of(context).accentColor : Colors.black,
+          color:
+              isActive ? Theme.of(context).colorScheme.secondary : Colors.black,
         ),
       ),
       Padding(

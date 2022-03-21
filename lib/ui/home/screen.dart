@@ -1,36 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:undo/undo.dart';
-
-import '../../src/blocs/todo.dart';
 import '../../src/database/database.dart';
+import '../../src/repository/todo_repo.dart';
 import '../common/index.dart';
 
-// ignore_for_file: prefer_const_constructors
-
-class HomeScreen extends StatefulWidget {
-  @override
-  HomeScreenState createState() {
-    return HomeScreenState();
-  }
-}
-
-/// Shows a list of todos and displays a text input to add another one
-class HomeScreenState extends State<HomeScreen> {
-  // we only use this to reset the input field at the bottom when a entry has been added
+class HomeScreen extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
-
-  TodoApp get bloc => RepositoryProvider.of<TodoApp>(context);
 
   @override
   Widget build(BuildContext context) {
+    final TodoRepo repo = RepositoryProvider.of<TodoRepo>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Todo list'),
       ),
       drawer: CategoriesDrawer(),
       body: StreamBuilder<List<EntryWithCategory>>(
-        stream: bloc.homeScreenEntries,
+        stream: repo.homeScreenEntries,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -67,14 +53,17 @@ class HomeScreenState extends State<HomeScreen> {
                       Expanded(
                         child: TextField(
                           controller: controller,
-                          onSubmitted: (_) => _createTodoEntry(),
+                          onSubmitted: (_) {
+                            _createTodoEntry(repo);
+                          },
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.send),
-                        color: Theme.of(context).colorScheme.secondary,
-                        onPressed: _createTodoEntry,
-                      ),
+                          icon: Icon(Icons.send),
+                          color: Theme.of(context).colorScheme.secondary,
+                          onPressed: () {
+                            _createTodoEntry(repo);
+                          }),
                     ],
                   ),
                 ),
@@ -86,11 +75,9 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _createTodoEntry() {
+  void _createTodoEntry(TodoRepo repo) {
     if (controller.text.isNotEmpty) {
-      // We write the entry here. Notice how we don't have to call setState()
-      // or anything - moor will take care of updating the list automatically.
-      bloc.createEntry(controller.text);
+      repo.createEntry(controller.text);
       controller.clear();
     }
   }

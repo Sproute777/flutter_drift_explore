@@ -1,9 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:drift/drift.dart';
-// import 'package:replay_bloc/replay_bloc.dart';
 import 'package:rxdart/rxdart.dart';
-// import 'package:undo/undo.dart';
-
 import '../database/database.dart';
 
 /*-----------------------------------------------------------------------------*/
@@ -14,47 +10,25 @@ class CategoryWithActiveInfo {
   bool isActive;
 }
 
-// class ChangeStack extends Equatable {
-//   final List<Object?> list;
-//   ChangeStack({
-//     required this.list,
-//   });
-
-//   ChangeStack copyWith({
-//     List<Object?>? list,
-//   }) {
-//     return ChangeStack(
-//       list: list ?? this.list,
-//     );
-//   }
-
-//   @override
-//   List<Object> get props => [list];
-// }
-
 /*-----------------------------------------------------------------------------*/
-class TodoApp {
-  TodoApp(this.db) {
+
+class TodoRepo {
+  TodoRepo(this.db) {
     init();
   }
 
+//______________________________________________________________________________
   final Database db;
-
-  // the category that is selected at the moment. null means that we show all
-  // entries
   final BehaviorSubject<Category?> _activeCategory =
       BehaviorSubject.seeded(null);
-
   final BehaviorSubject<List<CategoryWithActiveInfo>> _allCategories =
       BehaviorSubject();
 
   Stream<List<EntryWithCategory>>? _currentEntries;
-
-  /// A stream of entries that should be displayed on the home screen.
   Stream<List<EntryWithCategory>>? get homeScreenEntries => _currentEntries;
-
   Stream<List<CategoryWithActiveInfo>> get categories => _allCategories;
 
+//______________________________________________________________________________
   void init() {
     // listen for the category to change. Then display all entries that are in
     // the current category on the home screen.
@@ -74,65 +48,46 @@ class TodoApp {
         }).toList();
       },
     ).listen(_allCategories.add);
-    // emit(db);
   }
 
+//______________________________________________________________________________
   void showCategory(Category? category) {
     _activeCategory.add(category);
   }
 
+//______________________________________________________________________________
   void addCategory(String description) async {
     final id = await db.createCategory(description);
-    // emit(db.cs);
     showCategory(Category(id: id, description: description));
   }
 
+//______________________________________________________________________________
   void createEntry(String content) async {
     await db.createEntry(TodosCompanion(
       content: Value(content),
       category: Value(_activeCategory.value?.id),
     ));
-    // emit(db.cs);
   }
 
+//______________________________________________________________________________
   void updateEntry(TodoEntry entry) async {
     db.updateEntry(entry);
-    // emit(db.cs);
   }
 
+//______________________________________________________________________________
   void deleteEntry(TodoEntry entry) async {
     db.deleteEntry(entry);
-    // emit(db.cs);
   }
 
+//______________________________________________________________________________
   void deleteCategory(Category category) async {
-    // if the category being deleted is the one selected, reset that db by
-    // showing the entries who aren't in any category
     if (_activeCategory.value?.id == category.id) {
       showCategory(null);
     }
-
     await db.deleteCategory(category);
-    // emit(db.cs);
   }
 
-  // bool get canUndo => db.cs.canUndo;
-  // void undo() {
-  //   db.cs.undo();
-  //   emit(db.cs);
-  // }
-
-  // bool get canRedo => db.cs.canRedo;
-  // void redo() {
-  //   db.cs.redo();
-  //   emit(db.cs);
-  // }
-
-  // void clear() {
-  //   db.cs.clearHistory();
-  //   emit(db.cs);
-  // }
-
+//______________________________________________________________________________
   void dispose() {
     _allCategories.close();
   }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../src/blocs/todo.dart';
 import '../../src/database/database.dart';
+import '../../src/repository/todo_repo.dart';
 
 final _dateFormat = DateFormat.yMMMd();
 
@@ -102,7 +102,7 @@ class _TodoEditDialogState extends State<TodoEditDialog> {
               targetDate: _dueDate,
             );
 
-            RepositoryProvider.of<TodoApp>(context).updateEntry(entry);
+            RepositoryProvider.of<TodoRepo>(context).updateEntry(entry);
             Navigator.pop(context);
           },
         ),
