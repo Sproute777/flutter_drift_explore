@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:drift/drift.dart';
+// import 'package:replay_bloc/replay_bloc.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:undo/undo.dart';
+// import 'package:undo/undo.dart';
 
 import '../database/database.dart';
 
@@ -13,9 +14,27 @@ class CategoryWithActiveInfo {
   bool isActive;
 }
 
+// class ChangeStack extends Equatable {
+//   final List<Object?> list;
+//   ChangeStack({
+//     required this.list,
+//   });
+
+//   ChangeStack copyWith({
+//     List<Object?>? list,
+//   }) {
+//     return ChangeStack(
+//       list: list ?? this.list,
+//     );
+//   }
+
+//   @override
+//   List<Object> get props => [list];
+// }
+
 /*-----------------------------------------------------------------------------*/
-class TodoAppBloc extends Cubit<ChangeStack> {
-  TodoAppBloc(this.db) : super(db.cs) {
+class TodoApp {
+  TodoApp(this.db) {
     init();
   }
 
@@ -55,7 +74,7 @@ class TodoAppBloc extends Cubit<ChangeStack> {
         }).toList();
       },
     ).listen(_allCategories.add);
-    emit(db.cs);
+    // emit(db);
   }
 
   void showCategory(Category? category) {
@@ -64,7 +83,7 @@ class TodoAppBloc extends Cubit<ChangeStack> {
 
   void addCategory(String description) async {
     final id = await db.createCategory(description);
-    emit(db.cs);
+    // emit(db.cs);
     showCategory(Category(id: id, description: description));
   }
 
@@ -73,17 +92,17 @@ class TodoAppBloc extends Cubit<ChangeStack> {
       content: Value(content),
       category: Value(_activeCategory.value?.id),
     ));
-    emit(db.cs);
+    // emit(db.cs);
   }
 
   void updateEntry(TodoEntry entry) async {
     db.updateEntry(entry);
-    emit(db.cs);
+    // emit(db.cs);
   }
 
   void deleteEntry(TodoEntry entry) async {
     db.deleteEntry(entry);
-    emit(db.cs);
+    // emit(db.cs);
   }
 
   void deleteCategory(Category category) async {
@@ -94,25 +113,25 @@ class TodoAppBloc extends Cubit<ChangeStack> {
     }
 
     await db.deleteCategory(category);
-    emit(db.cs);
+    // emit(db.cs);
   }
 
-  bool get canUndo => db.cs.canUndo;
-  void undo() {
-    db.cs.undo();
-    emit(db.cs);
-  }
+  // bool get canUndo => db.cs.canUndo;
+  // void undo() {
+  //   db.cs.undo();
+  //   emit(db.cs);
+  // }
 
-  bool get canRedo => db.cs.canRedo;
-  void redo() {
-    db.cs.redo();
-    emit(db.cs);
-  }
+  // bool get canRedo => db.cs.canRedo;
+  // void redo() {
+  //   db.cs.redo();
+  //   emit(db.cs);
+  // }
 
-  void clear() {
-    db.cs.clearHistory();
-    emit(db.cs);
-  }
+  // void clear() {
+  //   db.cs.clearHistory();
+  //   emit(db.cs);
+  // }
 
   void dispose() {
     _allCategories.close();
