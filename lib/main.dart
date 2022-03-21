@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'src/blocs/todo.dart';
-import 'plugins/desktop/desktop.dart';
+import 'plugins/desktop/desktop.dart'; //
 import 'src/database/database.dart';
 import 'ui/home/screen.dart';
 
@@ -21,10 +21,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return RepositoryProvider<Database>(
       create: (context) => constructDb(),
-      child: BlocProvider<TodoAppBloc>(
+      child: RepositoryProvider<TodoApp>(
         create: (context) {
           final db = RepositoryProvider.of<Database>(context);
-          return TodoAppBloc(db);
+          return TodoApp(db);
         },
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

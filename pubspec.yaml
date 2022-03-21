@@ -24,31 +24,27 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # Dart
+ 
   cupertino_icons: ^1.0.3
 
   drift: ^1.5.0
-  # moor: ^4.3.2
+  
   rxdart: ^0.27.1
-  intl: ^0.17.0
 
-  # Also use the latest version.
   sqlite3_flutter_libs: ^0.5.0
 
-  # Helper to find the database path on mobile
   path_provider: ^2.0.2
   path: ^1.8.0
-  undo: ^1.4.0
-
-  # moor_db_viewer: ^4.0.0
   
   drift_db_viewer: ^1.0.3
-  bloc: ^8.0.3
+  # bloc: ^8.0.3
   flutter_bloc: ^8.0.1
+  intl: ^0.17.0
+
+
 
 dev_dependencies:
   drift_dev: ^1.5.2
-  # moor_generator: ^4.6.0
   build_runner: ^2.0.5
   build_web_compilers: ^3.0.0
   flutter_test:

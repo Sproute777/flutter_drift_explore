@@ -36,7 +36,7 @@ class CategoriesDrawer extends StatelessWidget {
           ),
           Flexible(
             child: StreamBuilder<List<CategoryWithActiveInfo>>(
-              stream: BlocProvider.of<TodoAppBloc>(context).categories,
+              stream: RepositoryProvider.of<TodoApp>(context).categories,
               builder: (context, snapshot) {
                 final categories = snapshot.data ?? <CategoryWithActiveInfo>[];
 
@@ -89,7 +89,7 @@ class _CategoryDrawerEntry extends StatelessWidget {
     }
 
     final isActive = entry!.isActive;
-    final bloc = BlocProvider.of<TodoAppBloc>(context);
+    final bloc = RepositoryProvider.of<TodoApp>(context);
 
     final rowContent = [
       Text(

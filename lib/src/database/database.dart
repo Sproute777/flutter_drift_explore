@@ -1,6 +1,5 @@
 // don't import moor_web.dart or moor_flutter/moor_flutter.dart in shared code
 import 'package:drift/drift.dart';
-import 'package:undo/undo.dart';
 
 import 'db_utils.dart';
 
@@ -60,7 +59,6 @@ class EntryWithCategory {
 )
 class Database extends _$Database {
   Database(QueryExecutor e) : super(e);
-  final cs = ChangeStack();
 
   @override
   int get schemaVersion => 2;
@@ -151,38 +149,37 @@ class Database extends _$Database {
     });
   }
 
-  Future<void> createEntry(TodosCompanion entry) async {
+  Future<int> createEntry(TodosCompanion entry) async {
     final _todos = await (select(todos)
           ..orderBy([
             (u) => OrderingTerm(expression: u.id, mode: OrderingMode.desc),
           ]))
         .get();
     entry = entry.copyWith(id: Value(_todos.first.id + 1));
-    return insertRow(cs, todos, entry);
+    return insertRow(todos, entry);
   }
 
   /// Updates the row in the database represents this entry by writing the
   /// updated data.
   Future updateEntry(TodoEntry entry) async {
-    return updateRow(cs, todos, entry);
+    return updateRow(todos, entry);
   }
 
   Future deleteEntry(TodoEntry entry) {
-    return deleteRow(cs, todos, entry);
+    return deleteRow(todos, entry);
   }
 
   Future<int> createCategory(String description) {
     return insertRow(
-      cs,
       categories,
       CategoriesCompanion(description: Value(description)),
-    ) as Future<int>;
+    );
   }
 
   Future deleteCategory(Category category) {
     return transaction(() async {
       await _resetCategory(category.id);
-      await deleteRow(cs, categories, category);
+      await deleteRow(categories, category);
     });
   }
 }

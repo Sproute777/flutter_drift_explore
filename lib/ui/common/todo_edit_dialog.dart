@@ -102,7 +102,7 @@ class _TodoEditDialogState extends State<TodoEditDialog> {
               targetDate: _dueDate,
             );
 
-            BlocProvider.of<TodoAppBloc>(context).updateEntry(entry);
+            RepositoryProvider.of<TodoApp>(context).updateEntry(entry);
             Navigator.pop(context);
           },
         ),
