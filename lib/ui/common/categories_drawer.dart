@@ -25,14 +25,31 @@ class CategoriesDrawer extends StatelessWidget {
                 );
               },
               child: Text(
-                'Todo-List Demo with moor',
+                'Todo-List Demo with Drift',
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1!
                     .copyWith(color: Colors.white),
               ),
             ),
-            decoration: BoxDecoration(color: Colors.orange),
+            decoration: BoxDecoration(color: Colors.purple),
+          ),
+          Row(
+            children: <Widget>[
+              TextButton(
+                child: const Text(
+                  'Add category',
+                  style: TextStyle(color: Colors.black87),
+                ),
+                onPressed: () {
+                  showDialog(
+                      context: context, builder: (_) => AddCategoryDialog());
+                },
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 16,
           ),
           Flexible(
             child: StreamBuilder<List<CategoryWithActiveInfo>>(
@@ -49,23 +66,6 @@ class CategoriesDrawer extends StatelessWidget {
               },
             ),
           ),
-          Spacer(),
-          Row(
-            children: <Widget>[
-              TextButton(
-                child: const Text('Add category'),
-                style: ButtonStyle(
-                  textStyle: MaterialStateProperty.all(
-                    TextStyle(color: Theme.of(context).colorScheme.secondary),
-                  ),
-                ),
-                onPressed: () {
-                  showDialog(
-                      context: context, builder: (_) => AddCategoryDialog());
-                },
-              ),
-            ],
-          ),
         ],
       ),
     );
@@ -73,13 +73,14 @@ class CategoriesDrawer extends StatelessWidget {
 }
 
 class _CategoryDrawerEntry extends StatelessWidget {
-  final CategoryWithActiveInfo? entry;
+  final CategoryWithActiveInfo entry;
 
-  const _CategoryDrawerEntry({Key? key, this.entry}) : super(key: key);
+  const _CategoryDrawerEntry({Key? key, required this.entry}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final category = entry!.categoryWithCount.category;
+    final category = entry.categoryWithCount.category;
+
     String title;
     if (category == null) {
       title = 'No category';
@@ -87,7 +88,7 @@ class _CategoryDrawerEntry extends StatelessWidget {
       title = category.description ?? 'Unnamed';
     }
 
-    final isActive = entry!.isActive;
+    final isActive = entry.isActive;
     final bloc = RepositoryProvider.of<TodoRepo>(context);
 
     final rowContent = [
