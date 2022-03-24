@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:my_drift_database/my_drift_database.dart';
 
-import '../../src/database/database.dart';
-import '../../src/repository/todo_repo.dart';
 import 'index.dart';
 
 final DateFormat _format = DateFormat.yMMMd();

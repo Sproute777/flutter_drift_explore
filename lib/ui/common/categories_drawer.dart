@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drift_db_viewer/drift_db_viewer.dart';
-import '../../src/database/database.dart';
+import 'package:my_drift_database/my_drift_database.dart';
 
-import '../../src/repository/todo_repo.dart';
 import 'index.dart';
 
 class CategoriesDrawer extends StatelessWidget {
@@ -102,7 +101,7 @@ class _CategoryDrawerEntry extends StatelessWidget {
       ),
       Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text('${entry!.categoryWithCount.count} entries'),
+        child: Text('${entry.categoryWithCount.count} entries'),
       ),
     ];
 
@@ -161,7 +160,7 @@ class _CategoryDrawerEntry extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
           onTap: () {
-            bloc.showCategory(entry!.categoryWithCount.category);
+            bloc.showCategory(entry.categoryWithCount.category);
             Navigator.pop(context); // close the navigation drawer
           },
           child: Padding(

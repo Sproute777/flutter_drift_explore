@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 
 import 'db_utils.dart';
 
-export 'database/shared.dart';
+export 'construct_db/shared.dart';
 
 part 'database.g.dart';
 /*-----------------------------------------------------------------------------*/

@@ -1,0 +1,25 @@
+name: my_drift_database
+description: database repository for this app.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  rxdart: ^0.27.1
+  # SQLite бд
+  drift: ^1.5.0
+  sqlite3_flutter_libs: ^0.5.0
+  path_provider: ^2.0.2
+  path: ^1.8.0 
+  # время и дата
+  # intl: ^0.17.0
+
+
+dev_dependencies:
+  drift_dev: ^1.5.2
+  build_runner: ^2.0.5
+  build_web_compilers: ^3.0.0
+
+
+

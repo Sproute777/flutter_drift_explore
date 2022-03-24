@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../src/database/database.dart';
-import '../../src/repository/todo_repo.dart';
+import 'package:my_drift_database/my_drift_database.dart';
+
 import '../common/index.dart';
 
 class HomeScreen extends StatelessWidget {
