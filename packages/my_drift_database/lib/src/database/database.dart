@@ -1,8 +1,6 @@
 // don't import moor_web.dart or moor_flutter/moor_flutter.dart in shared code
 import 'package:drift/drift.dart';
 
-import 'db_utils.dart';
-
 export 'construct_db/shared.dart';
 
 part 'database.g.dart';
@@ -120,8 +118,6 @@ class Database extends _$Database {
     }).watch();
   }
 
-  /// Watches all entries in the given [category]. If the category is null, all
-  /// entries will be shown instead.
   Stream<List<EntryWithCategory>> watchEntriesInCategory(Category? category) {
     if (category != null) {
       final query = select(todos).join(
@@ -149,29 +145,20 @@ class Database extends _$Database {
     });
   }
 
-  Future<int> createEntry(TodosCompanion entry) async {
-    final _todos = await (select(todos)
-          ..orderBy([
-            (u) => OrderingTerm(expression: u.id, mode: OrderingMode.desc),
-          ]))
-        .get();
-    entry = entry.copyWith(id: Value(_todos.first.id + 1));
-    return insertRow(todos, entry);
+  Future<int> createTodo(TodosCompanion entry) async {
+    return into(todos).insert(entry);
   }
 
-  /// Updates the row in the database represents this entry by writing the
-  /// updated data.
-  Future updateEntry(TodoEntry entry) async {
-    return updateRow(todos, entry);
+  Future updateTodo(TodoEntry entry) async {
+    return update(todos).replace(entry);
   }
 
-  Future deleteEntry(TodoEntry entry) {
-    return deleteRow(todos, entry);
+  Future deleteTodo(TodoEntry entry) {
+    return delete(todos).delete(entry);
   }
 
   Future<int> createCategory(String description) {
-    return insertRow(
-      categories,
+    return into(categories).insert(
       CategoriesCompanion(description: Value(description)),
     );
   }
@@ -179,7 +166,7 @@ class Database extends _$Database {
   Future deleteCategory(Category category) {
     return transaction(() async {
       await _resetCategory(category.id);
-      await deleteRow(categories, category);
+      await delete(categories).delete(category);
     });
   }
 }
