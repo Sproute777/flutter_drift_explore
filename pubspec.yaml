@@ -43,6 +43,7 @@ dependencies:
   drift_db_viewer: ^1.0.3
 
   flutter_bloc: ^8.0.1
+  equatable: ^2.0.3
   # bloc: ^8.0.3
 
 

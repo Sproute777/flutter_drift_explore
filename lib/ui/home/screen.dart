@@ -2,36 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_drift_database/my_drift_database.dart';
 
-import '../common/index.dart';
+import '../common/categories_drawer.dart';
+import '../common/todo_card.dart';
+import '../cubit/todo_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final TodoRepo repo = RepositoryProvider.of<TodoRepo>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Todo list'),
       ),
       drawer: CategoriesDrawer(),
-      body: StreamBuilder<List<EntryWithCategory>>(
-        stream: repo.homeScreenEntries,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+      body: BlocBuilder<TodoCubit, TodoState>(
+        builder: (context, state) {
+          if (state.status == TodoStatus.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
-          if (!snapshot.hasData) {
-            return Center(child: Text('no data!'));
+          if (state.status == TodoStatus.noData) {
+            return Center(
+              child: Text('no data'),
+            );
           }
-
-          final activeTodos = snapshot.data!;
 
           return ListView.builder(
-            itemCount: activeTodos.length,
+            itemCount: state.entries!.length,
             itemBuilder: (context, index) {
-              return TodoCard(activeTodos[index].entry);
+              return TodoCard(state.entries![index].entry);
             },
           );
         },
@@ -45,7 +47,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('What needs to be done?'),
+                Text('Напиши что-нибудь ?'),
                 Container(
                   padding: EdgeInsets.only(bottom: 10.0),
                   child: Row(
@@ -54,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                         child: TextField(
                           controller: controller,
                           onSubmitted: (_) {
-                            _createTodoEntry(repo);
+                            _createTodoEntry(context);
                           },
                         ),
                       ),
@@ -62,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                           icon: Icon(Icons.send),
                           color: Theme.of(context).colorScheme.secondary,
                           onPressed: () {
-                            _createTodoEntry(repo);
+                            _createTodoEntry(context);
                           }),
                     ],
                   ),
@@ -75,9 +77,9 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _createTodoEntry(TodoRepo repo) {
+  void _createTodoEntry(BuildContext ctx) {
     if (controller.text.isNotEmpty) {
-      repo.createEntry(controller.text);
+      ctx.read<TodoCubit>().createTodo(controller.text);
       controller.clear();
     }
   }

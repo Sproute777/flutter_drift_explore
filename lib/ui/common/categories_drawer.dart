@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:my_drift_database/my_drift_database.dart';
 
-import 'index.dart';
+import '../cubit/todo_bloc.dart';
+import 'add_category_dialog.dart';
 
 class CategoriesDrawer extends StatelessWidget {
   @override
@@ -51,17 +52,16 @@ class CategoriesDrawer extends StatelessWidget {
             height: 16,
           ),
           Flexible(
-            child: StreamBuilder<List<CategoryWithActiveInfo>>(
-              stream: RepositoryProvider.of<TodoRepo>(context).categories,
-              builder: (context, snapshot) {
-                final categories = snapshot.data ?? <CategoryWithActiveInfo>[];
-
+            child: BlocBuilder<TodoCubit, TodoState>(
+              builder: (context, state) {
                 return ListView.builder(
                   itemBuilder: (context, index) {
-                    return _CategoryDrawerEntry(entry: categories[index]);
+                    return _CategoryDrawerEntry(entry: state.categories[index]);
                   },
-                  itemCount: categories.length,
+                  itemCount: state.categories.length,
                 );
+                // },
+                // );
               },
             ),
           ),
@@ -144,7 +144,7 @@ class _CategoryDrawerEntry extends StatelessWidget {
 
             if (confirmed == true) {
               // can be null when the dialog is dismissed
-              bloc.deleteCategory(category);
+              context.read<TodoCubit>().deleteCategory(category);
             }
           },
         ),

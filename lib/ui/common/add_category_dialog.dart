@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_drift_database/my_drift_database.dart';
+
+import '../cubit/todo_bloc.dart';
 
 class AddCategoryDialog extends StatefulWidget {
   @override
@@ -55,7 +56,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
 
   void _addEntry() {
     if (_controller.text.isNotEmpty) {
-      RepositoryProvider.of<TodoRepo>(context).addCategory(_controller.text);
+      context.read<TodoCubit>().addCategory(_controller.text);
       Navigator.of(context).pop();
     }
   }
