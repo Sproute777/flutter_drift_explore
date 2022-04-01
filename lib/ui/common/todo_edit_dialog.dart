@@ -102,7 +102,6 @@ class _TodoEditDialogState extends State<TodoEditDialog> {
               targetDate: _dueDate,
             );
             context.read<TodoCubit>().updateEntry(entry);
-            // RepositoryProvider.of<TodoRepo>(context).updateEntry(entry);
             Navigator.pop(context);
           },
         ),

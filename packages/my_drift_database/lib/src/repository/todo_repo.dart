@@ -63,7 +63,7 @@ class TodoRepo {
 
 //______________________________________________________________________________
   void createEntry(String content) async {
-    await db.createEntry(TodosCompanion(
+    await db.createTodo(TodosCompanion(
       content: Value(content),
       category: Value(_activeCategory.value?.id),
     ));
@@ -71,12 +71,12 @@ class TodoRepo {
 
 //______________________________________________________________________________
   void updateEntry(TodoEntry entry) async {
-    db.updateEntry(entry);
+    db.updateTodo(entry);
   }
 
 //______________________________________________________________________________
   void deleteEntry(TodoEntry entry) async {
-    db.deleteEntry(entry);
+    db.deleteTodo(entry);
   }
 
 //______________________________________________________________________________
