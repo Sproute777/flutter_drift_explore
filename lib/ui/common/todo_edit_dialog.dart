@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:my_drift_database/my_drift_database.dart';
 
+import '../cubit/todo_bloc.dart';
+
 final _dateFormat = DateFormat.yMMMd();
 
 class TodoEditDialog extends StatefulWidget {
@@ -99,8 +101,8 @@ class _TodoEditDialogState extends State<TodoEditDialog> {
               content: updatedContent.isNotEmpty ? updatedContent : null,
               targetDate: _dueDate,
             );
-
-            RepositoryProvider.of<TodoRepo>(context).updateEntry(entry);
+            context.read<TodoCubit>().updateEntry(entry);
+            // RepositoryProvider.of<TodoRepo>(context).updateEntry(entry);
             Navigator.pop(context);
           },
         ),

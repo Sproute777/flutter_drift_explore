@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:my_drift_database/my_drift_database.dart';
 
-import 'index.dart';
+import '../cubit/todo_bloc.dart';
+import 'todo_edit_dialog.dart';
 
 final DateFormat _format = DateFormat.yMMMd();
 
@@ -64,7 +65,8 @@ class TodoCard extends StatelessWidget {
               icon: const Icon(Icons.delete),
               color: Colors.red,
               onPressed: () {
-                RepositoryProvider.of<TodoRepo>(context).deleteEntry(entry);
+                context.read<TodoCubit>().deleteEntry(entry);
+                // RepositoryProvider.of<TodoRepo>(context).deleteEntry(entry);
               },
             )
           ],
