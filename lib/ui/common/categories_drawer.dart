@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drift_db_viewer/drift_db_viewer.dart';
 
-import '../../my_drift_database/database.dart';
-import '../../my_drift_database/todos_dao.dart';
+import '../../my_drift_database/my_drift_database.dart';
+
 import '../cubit/todo_bloc.dart';
 import 'add_category_dialog.dart';
 
@@ -89,7 +89,6 @@ class _CategoryDrawerEntry extends StatelessWidget {
     }
 
     final isActive = entry.isActive;
-    // final bloc = RepositoryProvider.of<TodoRepo>(context);
 
     final rowContent = [
       Text(
@@ -145,7 +144,7 @@ class _CategoryDrawerEntry extends StatelessWidget {
 
             if (confirmed == true) {
               // can be null when the dialog is dismissed
-              // context.read<TodoCubit>().deleteCategory(category);
+              context.read<TodoCubit>().deleteCategory(category);
             }
           },
         ),

@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../my_drift_database/database.dart';
-import '../../my_drift_database/todos_dao.dart';
+import '../../my_drift_database/my_drift_database.dart';
 
 part 'todo_state.dart';
 
@@ -35,7 +34,8 @@ class TodoCubit extends Cubit<TodoState> {
   void updateEntry(TodoEntry entry) => _repository.updateTodo(entry);
 
   void addCategory(String text) => _repository.createCategory(text);
-  // void deleteCategory(Category category) => _repository.deleteCategory(category);
+  void deleteCategory(Category category) =>
+      _repository.deleteCategory(category);
 
   Future<void> close() {
     _subscriptionTodo?.cancel();

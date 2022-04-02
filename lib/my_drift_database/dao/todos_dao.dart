@@ -1,15 +1,12 @@
 import 'package:drift/drift.dart';
 import 'package:rxdart/rxdart.dart';
-import 'category_table.dart';
-import 'database.dart';
-import 'todo_table.dart';
+import '../my_drift_database.dart';
 
 part 'todos_dao.g.dart';
 
 class CategoryWithCount {
   CategoryWithCount(this.category, this.count);
 
-  // can be null, in which case we count how many entries don't have a category
   final Category? category;
   final int count; // amount of entries in this category
 }
@@ -67,8 +64,6 @@ class TodosDao extends DatabaseAccessor<Database> with _$TodosDaoMixin {
   Stream<List<CategoryWithActiveInfo>> get ctg => _allCategories;
 
   void init() {
-    // listen for the category to change. Then display all entries that are in
-    // the current category on the home screen.
     _currentEntries = _activeCategory.switchMap(watchEntriesInCategory);
 
     // also watch all categories so that they can be displayed in the navigation
@@ -142,9 +137,6 @@ class TodosDao extends DatabaseAccessor<Database> with _$TodosDaoMixin {
   }
 
   Future deleteCategory(Category category) {
-    return transaction(() async {
-      // await databaresetCategory(category.id);
-      await delete(categories).delete(category);
-    });
+    return delete(categories).delete(category);
   }
 }

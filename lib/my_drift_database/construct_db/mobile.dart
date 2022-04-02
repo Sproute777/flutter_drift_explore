@@ -6,7 +6,7 @@ import 'package:drift/drift.dart';
 import 'package:path_provider/path_provider.dart' as paths;
 import 'package:path/path.dart' as p;
 
-import '../database.dart';
+import '../database/database.dart';
 
 Database constructDb({bool logStatements = false}) {
   if (Platform.isIOS || Platform.isAndroid) {

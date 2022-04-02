@@ -1,33 +1,11 @@
 // don't import moor_web.dart or moor_flutter/moor_flutter.dart in shared code
 import 'package:drift/drift.dart';
 
-import 'category_table.dart';
-import 'todo_table.dart';
-import 'todos_dao.dart';
+import '../my_drift_database.dart';
 
-export 'construct_db/shared.dart';
+export '../construct_db/shared.dart';
 
 part 'database.g.dart';
-/*-----------------------------------------------------------------------------*/
-
-// @DataClassName('TodoEntry')
-// class Todos extends Table {
-//   IntColumn get id => integer().autoIncrement()();
-
-//   TextColumn get content => text()();
-
-//   DateTimeColumn get targetDate => dateTime().nullable()();
-
-//   IntColumn get category => integer()
-//       .nullable()
-//       .customConstraint('NULLABLE REFERENCES categories(id)')();
-// }
-
-// /*-----------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------*/
 
 @DriftDatabase(
   tables: [Todos, Categories],
@@ -77,18 +55,5 @@ class Database extends _$Database {
       },
     );
   }
-
-  // Future<int> createTodo(TodosCompanion entry) async {
-  //   return into(todos).insert(entry);
-  // }
-
-  // Future updateTodo(TodoEntry entry) async {
-  //   return update(todos).replace(entry);
-  // }
-
-  // Future deleteTodo(TodoEntry entry) {
-  //   return delete(todos).delete(entry);
-  // }
-
 }
 /*-----------------------------------------------------------------------------*/
