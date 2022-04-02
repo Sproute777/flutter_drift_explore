@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_drift_database/my_drift_database.dart';
 
 import '../common/categories_drawer.dart';
 import '../common/todo_card.dart';

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drift_db_viewer/drift_db_viewer.dart';
-import 'package:my_drift_database/my_drift_database.dart';
 
+import '../../my_drift_database/database.dart';
+import '../../my_drift_database/repo.dart';
+import '../../my_drift_database/todos_dao.dart';
 import '../cubit/todo_bloc.dart';
 import 'add_category_dialog.dart';
 
@@ -88,7 +90,7 @@ class _CategoryDrawerEntry extends StatelessWidget {
     }
 
     final isActive = entry.isActive;
-    final bloc = RepositoryProvider.of<TodoRepo>(context);
+    // final bloc = RepositoryProvider.of<TodoRepo>(context);
 
     final rowContent = [
       Text(
@@ -144,7 +146,7 @@ class _CategoryDrawerEntry extends StatelessWidget {
 
             if (confirmed == true) {
               // can be null when the dialog is dismissed
-              context.read<TodoCubit>().deleteCategory(category);
+              // context.read<TodoCubit>().deleteCategory(category);
             }
           },
         ),
@@ -160,7 +162,7 @@ class _CategoryDrawerEntry extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
           onTap: () {
-            bloc.showCategory(entry.categoryWithCount.category);
+            // bloc.showCategory(entry.categoryWithCount.category);
             Navigator.pop(context); // close the navigation drawer
           },
           child: Padding(

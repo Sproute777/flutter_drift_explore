@@ -439,6 +439,7 @@ abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $TodosTable todos = $TodosTable(this);
   late final $CategoriesTable categories = $CategoriesTable(this);
+  late final TodosDao todosDao = TodosDao(this as Database);
   Future<int> _resetCategory(int? var1) {
     return customUpdate(
       'UPDATE todos SET category = NULL WHERE category = ?',

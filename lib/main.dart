@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:my_drift_database/my_drift_database.dart';
-
+import 'my_drift_database/database.dart';
+import 'my_drift_database/todos_dao.dart';
 import 'plugins/target_platform/target_platform.dart';
 import 'ui/cubit/todo_bloc.dart';
 import 'ui/home/screen.dart';
@@ -17,14 +17,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider<Database>(
       create: (context) => constructDb(),
-      child: RepositoryProvider<TodoRepo>(
+      child: RepositoryProvider<TodosDao>(
         create: (context) {
           final db = RepositoryProvider.of<Database>(context);
-          return TodoRepo(db);
+          return TodosDao(db)..init();
         },
         child: BlocProvider(
           create: (context) =>
-              TodoCubit(RepositoryProvider.of<TodoRepo>(context)),
+              TodoCubit(RepositoryProvider.of<TodosDao>(context)),
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
