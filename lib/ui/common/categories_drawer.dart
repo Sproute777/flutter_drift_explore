@@ -160,7 +160,9 @@ class _CategoryDrawerEntry extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
           onTap: () {
-            // bloc.showCategory(entry.categoryWithCount.category);
+            context
+                .read<TodoCubit>()
+                .showCategory(entry.categoryWithCount.category);
             Navigator.pop(context); // close the navigation drawer
           },
           child: Padding(

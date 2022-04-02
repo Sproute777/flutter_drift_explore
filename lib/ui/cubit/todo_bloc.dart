@@ -19,14 +19,14 @@ class TodoCubit extends Cubit<TodoState> {
       _fresh(event);
     });
     _subscriptionCategory = _repository.ctg.listen((event) {
-      _newCatefories(event);
+      _newCategories(event);
     });
   }
 
   void _fresh(List<EntryWithCategory> entries) =>
       emit(state.newEntries(entries: entries));
 
-  void _newCatefories(List<CategoryWithActiveInfo> category) =>
+  void _newCategories(List<CategoryWithActiveInfo> category) =>
       emit(state.newCategories(c: category));
 
   void createTodo(String text) => _repository.createTodo(text);
@@ -34,12 +34,14 @@ class TodoCubit extends Cubit<TodoState> {
   void updateEntry(TodoEntry entry) => _repository.updateTodo(entry);
 
   void addCategory(String text) => _repository.createCategory(text);
+  void showCategory(Category? c) => _repository.showCategory(c);
   void deleteCategory(Category category) =>
       _repository.deleteCategory(category);
 
   Future<void> close() {
     _subscriptionTodo?.cancel();
     _subscriptionCategory?.cancel();
+    _repository.close();
     return super.close();
   }
 }

@@ -3,8 +3,6 @@ import 'package:drift/drift.dart';
 
 import '../my_drift_database.dart';
 
-export '../construct_db/shared.dart';
-
 part 'database.g.dart';
 
 @DriftDatabase(

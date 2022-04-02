@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:drift/drift.dart';
 import 'package:rxdart/rxdart.dart';
 import '../my_drift_database.dart';
@@ -32,6 +34,11 @@ class TodosDao extends DatabaseAccessor<Database> with _$TodosDaoMixin {
   final Database database;
   TodosDao(this.database) : super(database);
 
+  void close() {
+    rxSubs?.cancel();
+    database.close();
+  }
+
   Future<int> _createTodo(TodosCompanion entry) async {
     return into(todos).insert(entry);
   }
@@ -51,6 +58,8 @@ class TodosDao extends DatabaseAccessor<Database> with _$TodosDaoMixin {
     return await delete(todos).delete(entry);
   }
 
+  StreamSubscription? rxSubs;
+
   final BehaviorSubject<Category?> _activeCategory =
       BehaviorSubject.seeded(null);
 
@@ -66,9 +75,7 @@ class TodosDao extends DatabaseAccessor<Database> with _$TodosDaoMixin {
   void init() {
     _currentEntries = _activeCategory.switchMap(watchEntriesInCategory);
 
-    // also watch all categories so that they can be displayed in the navigation
-    // drawer.
-    Rx.combineLatest2<List<CategoryWithCount>, Category?,
+    rxSubs = Rx.combineLatest2<List<CategoryWithCount>, Category?,
         List<CategoryWithActiveInfo>>(
       categoriesWithCount(),
       _activeCategory,
@@ -128,6 +135,10 @@ class TodosDao extends DatabaseAccessor<Database> with _$TodosDaoMixin {
         return EntryWithCategory(row, null);
       }).toList();
     });
+  }
+
+  void showCategory(Category? category) {
+    _activeCategory.add(category);
   }
 
   Future<int> createCategory(String description) {
