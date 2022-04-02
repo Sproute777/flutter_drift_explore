@@ -3,12 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'my_drift_database/database.dart';
 import 'my_drift_database/todos_dao.dart';
-import 'plugins/target_platform/target_platform.dart';
+
 import 'ui/cubit/todo_bloc.dart';
 import 'ui/home/screen.dart';
 
 void main() {
-  setTargetPlatformForDesktop();
   runApp(MyApp());
 }
 
